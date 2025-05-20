@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crm.API", "Presentation\Crm.API\Crm.API.csproj", "{2022497B-CD20-4403-A105-5EF1A21D53CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Crm.SharedKernel", "core\Crm.SharedKernel\Crm.SharedKernel.csproj", "{17B2CCFD-4128-4597-9650-F46B110D7217}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{2022497B-CD20-4403-A105-5EF1A21D53CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2022497B-CD20-4403-A105-5EF1A21D53CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2022497B-CD20-4403-A105-5EF1A21D53CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17B2CCFD-4128-4597-9650-F46B110D7217}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17B2CCFD-4128-4597-9650-F46B110D7217}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17B2CCFD-4128-4597-9650-F46B110D7217}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17B2CCFD-4128-4597-9650-F46B110D7217}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 		{B361AEA0-7C12-4B32-97A9-373A7F055CBC} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{F47A4A54-E971-4F43-93C9-33C3BEA016F7} = {BE5FEC74-AE71-4E8F-A7DD-D86EE1DA19C8}
 		{2022497B-CD20-4403-A105-5EF1A21D53CC} = {C376BA59-59BD-4D7D-8DC7-CE8BB471C50F}
+		{17B2CCFD-4128-4597-9650-F46B110D7217} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6B824BC9-87AA-4A0D-97DF-7A5ED8BA8607}
