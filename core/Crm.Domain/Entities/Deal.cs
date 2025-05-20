@@ -3,6 +3,7 @@ public class Deal : BaseEntity
 {
 	public string Title { get; set; }
 	public decimal Amount { get; set; }
+	public DealStages DealStages { get; set; }
 	// Foreign keys
 	public Guid ContactId { get; set; }
 	public Guid CompanyId { get; set; }
