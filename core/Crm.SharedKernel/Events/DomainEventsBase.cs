@@ -1,6 +1,4 @@
-﻿using MediatR;
-
-namespace Crm.SharedKernel.Events;
+﻿namespace Crm.SharedKernel.Events;
 public class DomainEventsBase : INotification
 {
 	public Guid EventId { get; }

@@ -4,3 +4,4 @@ global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Crm.Domain.Entities;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using Crm.SharedKernel.Events;
