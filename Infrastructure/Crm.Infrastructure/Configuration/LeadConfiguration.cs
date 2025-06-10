@@ -8,33 +8,9 @@ internal sealed class LeadConfiguration : IEntityTypeConfiguration<Lead>
 		builder.Property(x => x.CreatedAt)
 			   .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-		builder.Property(x => x.FirstName)
-			.IsRequired(true)
-			.HasMaxLength(20);
-
-		builder.Property(x => x.LastName)
-			.IsRequired(true)
-			.HasMaxLength(20);
-
-		builder.OwnsOne(c => c.Email, email =>
-		{
-			email.Property(e => e.Value)
-				.HasColumnName("Email")
-				.IsRequired()
-				.HasMaxLength(150);
-		});
-
-		builder.OwnsOne(c => c.Phone, phone =>
-		{
-			phone.Property(p => p.Value)
-				.HasColumnName("Phone")
-				.IsRequired()
-				.HasMaxLength(20);
-		});
-
-		builder.HasOne(x => x.User)
+		builder.HasOne(x => x.Contact)
 			.WithMany(y => y.Leads)
-			.HasForeignKey(a => a.UserId);
+			.HasForeignKey(a => a.ContactId);
 
 		builder.HasMany(x => x.Tasks)
 			.WithOne(t => t.Lead)

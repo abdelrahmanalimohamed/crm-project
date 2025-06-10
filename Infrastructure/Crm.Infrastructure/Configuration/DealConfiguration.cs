@@ -15,7 +15,7 @@ internal sealed class DealConfiguration : IEntityTypeConfiguration<Deal>
 		builder.Property(d => d.Amount)
 			.HasColumnType("decimal(18,2)");
 
-		builder.Property(x => x.DealStages)
+		builder.Property(x => x.Stage)
 			.IsRequired(true);
 
 		builder.HasOne(d => d.Contact)
