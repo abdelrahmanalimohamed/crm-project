@@ -8,8 +8,18 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 		builder.Property(x => x.CreatedAt)
 				.HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-		builder.Property(x => x.Name)
-				.HasMaxLength(20);
+		builder.OwnsOne(x => x.FullName, fullname =>
+		{
+			fullname.Property(p => p.FirstName)
+					.HasColumnName("FirstName")
+					.IsRequired()
+					.HasMaxLength(50);
+
+			fullname.Property(p => p.LastName)
+				.HasColumnName("LastName")
+				.IsRequired()
+				.HasMaxLength(50);
+		});
 
 		builder.Property(x => x.Role)
 			.IsRequired();

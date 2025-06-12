@@ -7,7 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Event\**" />
+    <EmbeddedResource Remove="Event\**" />
+    <None Remove="Event\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Crm.Domain\Crm.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="Konscious.Security.Cryptography.Argon2" Version="1.3.1" />
+    <PackageReference Include="Riok.Mapperly" Version="4.2.1" />
   </ItemGroup>
 
 </Project>

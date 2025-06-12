@@ -9,8 +9,7 @@ public class Contact : BaseEntity
 	private readonly List<Lead> _leads = new();
 
 	// Properties
-	public string FirstName { get; private set; }
-	public string LastName { get; private set; }
+	public FullName FullName { get; private set; }
 	public Email Email { get; private set; }
 	public PhoneNumber Phone { get; private set; }
 	public string JobTitle { get; private set; }
@@ -35,8 +34,7 @@ public class Contact : BaseEntity
 
 	// Constructor for creation
 	public Contact(
-		string firstName,
-		string lastName,
+		FullName fullName ,
 		Email email,
 		PhoneNumber phone,
 		Guid companyId,
@@ -44,10 +42,7 @@ public class Contact : BaseEntity
 		string jobTitle = null,
 		string department = null)
 	{
-		ValidateName(firstName, lastName);
-		
-		FirstName = firstName;
-		LastName = lastName;
+		FullName = fullName ?? throw new ArgumentNullException(nameof(fullName)); ;
 		Email = email ?? throw new ArgumentNullException(nameof(email));
 		Phone = phone ?? throw new ArgumentNullException(nameof(phone));
 		CompanyId = companyId;
@@ -60,12 +55,9 @@ public class Contact : BaseEntity
 	}
 
 	// Business methods
-	public void UpdateContactInfo(string firstName, string lastName, Email email, PhoneNumber phone)
+	public void UpdateContactInfo(FullName fullName, Email email, PhoneNumber phone)
 	{
-		ValidateName(firstName, lastName);
-		
-		FirstName = firstName;
-		LastName = lastName;
+		FullName = fullName ?? throw new ArgumentNullException(nameof(fullName));
 		Email = email ?? throw new ArgumentNullException(nameof(email));
 		Phone = phone ?? throw new ArgumentNullException(nameof(phone));
 		UpdatedAt = DateTime.UtcNow;
@@ -146,22 +138,6 @@ public class Contact : BaseEntity
 		if (activity == null) throw new ArgumentNullException(nameof(activity));
 		_activities.Add(activity);
 		UpdatedAt = DateTime.UtcNow;
-	}
-
-	// Private validation methods
-	private static void ValidateName(string firstName, string lastName)
-	{
-		if (string.IsNullOrWhiteSpace(firstName))
-			throw new DomainException("First name cannot be empty");
-		
-		if (string.IsNullOrWhiteSpace(lastName))
-			throw new DomainException("Last name cannot be empty");
-		
-		if (firstName.Length > 50)
-			throw new DomainException("First name cannot be longer than 50 characters");
-		
-		if (lastName.Length > 50)
-			throw new DomainException("Last name cannot be longer than 50 characters");
 	}
 }
 

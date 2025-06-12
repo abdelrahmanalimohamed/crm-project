@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Crm.Domain.Repository;
+﻿namespace Crm.Domain.Repository;
 public interface IBaseRepository<T> where T : class
 {
 	ValueTask<IEnumerable<T>> GetAll(CancellationToken cancellationToken = default);

@@ -1,0 +1,10 @@
+﻿global using Crm.Domain.Repository;
+global using Crm.SharedKernel.Events;
+global using Crm.Application.Abstraction;
+global using Crm.Domain.Enums;
+global using Crm.Application.UnitOfWork;
+global using Crm.Domain.Entities;
+global using Crm.Domain.Security;
+global using Crm.Domain.ValueObjects;
+global using Crm.Application.Mapping;
+global using Crm.Application.Employee;

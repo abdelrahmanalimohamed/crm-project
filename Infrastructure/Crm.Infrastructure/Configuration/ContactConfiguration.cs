@@ -9,13 +9,18 @@ namespace Crm.Infrastructure.Configuration
 			builder.Property(x => x.CreatedAt)
 					.HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-			builder.Property(c => c.FirstName)
-				.IsRequired()
-				.HasMaxLength(100);
+			builder.OwnsOne(x => x.FullName, fullname =>
+			{
+				fullname.Property(p => p.FirstName)
+						.HasColumnName("FirstName")
+						.IsRequired()
+						.HasMaxLength(50);
 
-			builder.Property(c => c.LastName)
-				.IsRequired()
-				.HasMaxLength(100);
+				fullname.Property(p => p.LastName)
+					.HasColumnName("LastName")
+					.IsRequired()
+					.HasMaxLength(50);
+			});
 
 			builder.OwnsOne(c => c.Email, email =>
 			{
