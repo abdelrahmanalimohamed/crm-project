@@ -1,7 +1,7 @@
 ﻿using Crm.Application.Abstraction;
 
 namespace CRM.UnitTests.CommandQueryTest;
-internal class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, int>
+public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, int>
 {
 	public async ValueTask<int> Handle(CreateUserCommand command, CancellationToken cancellationToken)
 	{

@@ -1,7 +1,7 @@
 ﻿using Crm.Application.Abstraction;
 
 namespace CRM.UnitTests.CommandQueryTest;
-internal class UpdateUserCommandHandler : ICommandHandler<UpdateUserCommand>
+public class UpdateUserCommandHandler : ICommandHandler<UpdateUserCommand>
 {
 	public async ValueTask Handle(UpdateUserCommand command, CancellationToken cancellationToken)
 	{

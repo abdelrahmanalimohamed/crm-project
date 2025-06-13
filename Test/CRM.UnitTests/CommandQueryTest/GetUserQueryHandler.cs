@@ -1,7 +1,7 @@
 ﻿using Crm.Application.Abstraction;
 
 namespace CRM.UnitTests.CommandQueryTest;
-internal class GetUserQueryHandler : IQueryHandler<GetUserQuery, User>
+public class GetUserQueryHandler : IQueryHandler<GetUserQuery, User>
 {
 	public async ValueTask<User> Handle(GetUserQuery query, CancellationToken cancellationToken)
 	{
