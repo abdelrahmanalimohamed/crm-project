@@ -2,9 +2,9 @@
 {
 	public class BaseRepository<T> : IBaseRepository<T> where T : class
 	{
-		private readonly ApplicationDbContext _applicationDbContext;
+		private readonly DbContext _applicationDbContext;
 		private readonly DbSet<T> _dbSet;
-		public BaseRepository(ApplicationDbContext applicationDbContext)
+		public BaseRepository(DbContext applicationDbContext)
 		{
 			_applicationDbContext = applicationDbContext;
 			_dbSet = applicationDbContext.Set<T>();

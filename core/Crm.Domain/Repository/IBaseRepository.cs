@@ -7,7 +7,7 @@ public interface IBaseRepository<T> where T : class
 	ValueTask Update(T entity, CancellationToken cancellationToken = default);
 	ValueTask Delete(T entity, CancellationToken cancellationToken = default);
 	ValueTask<IEnumerable<T>> FindWithIncludeAsync
-		(Expression<Func<T, bool>> predicate,
-		List<Expression<Func<T, object>>> includes, 
+		(Expression<Func<T, bool>> predicate = null,
+		List<Expression<Func<T, object>>> includes = null, 
 		CancellationToken cancellationToken = default);
 }

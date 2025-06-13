@@ -2,8 +2,8 @@
 {
 	internal sealed class CreateUserCommandHandler
 		(IUnitOfWork unitOfWork , 
-		IDomainDispatcher domainDispatcher ,
-		IPasswordHasher passwordHasher) 
+		 IDomainDispatcher domainDispatcher ,
+		 IPasswordHasher passwordHasher) 
 		: ICommandHandler<CreateUserCommand, Guid>
 	{
 		public async ValueTask<Guid> Handle(CreateUserCommand command, CancellationToken cancellationToken)
