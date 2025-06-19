@@ -1,22 +1,22 @@
-﻿namespace Crm.Application.Employee
+﻿namespace Crm.Application.Employee;
+public sealed class CreateUserCommandHandler
+	(IUnitOfWork unitOfWork , 
+	 IDomainDispatcher domainDispatcher ,
+	 IPasswordHasher passwordHasher) 
+	: ICommandHandler<CreateUserCommand, Guid>
 {
-	internal sealed class CreateUserCommandHandler
-		(IUnitOfWork unitOfWork , 
-		 IDomainDispatcher domainDispatcher ,
-		 IPasswordHasher passwordHasher) 
-		: ICommandHandler<CreateUserCommand, Guid>
+	public async ValueTask<Guid> Handle(
+		CreateUserCommand command,
+		CancellationToken cancellationToken)
 	{
-		public async ValueTask<Guid> Handle(CreateUserCommand command, CancellationToken cancellationToken)
-		{
-			var user = UserMapper.MapToUser(command, passwordHasher);
+		var user = UserMapper.MapToUser(command, passwordHasher);
 
-			await unitOfWork.Repository<User>().Insert(user, cancellationToken);
-			await unitOfWork.SaveChangesAsync(cancellationToken);
+		await unitOfWork.Repository<User>().Insert(user, cancellationToken);
+		await unitOfWork.SaveChangesAsync(cancellationToken);
 
-			await domainDispatcher.DispatchEvents(user.DomainEvents, cancellationToken);
-			user.ClearDomainEvents();
+		await domainDispatcher.DispatchEvents(user.DomainEvents, cancellationToken);
+		user.ClearDomainEvents();
 
-			return user.Id;
-		}
+		return user.Id;
 	}
 }

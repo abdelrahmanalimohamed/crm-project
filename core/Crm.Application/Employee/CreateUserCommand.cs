@@ -1,9 +1,7 @@
 ﻿namespace Crm.Application.Employee;
-public record CreateUserCommand : ICommand<Guid>
-{
-	public string FirstName { get; set; }
-	public string LastName { get; set; }
-	public string Email { get; set; }
-	public string Password { get; set; }
-	public Role Role { get; set; }
-}
+public sealed record CreateUserCommand(
+	string FirstName,
+	string LastName,
+	string Email,
+	string Password , 
+	Role Role) : ICommand<Guid>;

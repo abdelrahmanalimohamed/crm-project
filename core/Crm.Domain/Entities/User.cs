@@ -50,7 +50,7 @@ public class User : BaseEntity
 		if (string.IsNullOrWhiteSpace(passwordHash))
 			throw new ArgumentException("Password hash cannot be empty.", nameof(passwordHash));
 
-		if (passwordHash.Length < 60) // bcrypt hashes are typically 60 characters
+		if (passwordHash.Length < 40) // bcrypt hashes are typically 60 characters
 			throw new ArgumentException("Invalid password hash length.", nameof(passwordHash));
 	}
 }
