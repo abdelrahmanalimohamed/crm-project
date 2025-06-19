@@ -65,7 +65,7 @@ namespace Crm.Infrastructure.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("UserId")
@@ -114,7 +114,7 @@ namespace Crm.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Website")
@@ -144,11 +144,6 @@ namespace Crm.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
@@ -159,12 +154,7 @@ namespace Crm.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("UserId")
@@ -217,7 +207,7 @@ namespace Crm.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("UserId")
@@ -254,7 +244,7 @@ namespace Crm.Infrastructure.Migrations
                     b.Property<int>("LeadStatus")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid?>("UserId")
@@ -309,7 +299,7 @@ namespace Crm.Infrastructure.Migrations
                     b.Property<DateTime?>("PinnedUntil")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("UserId")
@@ -382,7 +372,7 @@ namespace Crm.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("UserId")
@@ -423,11 +413,6 @@ namespace Crm.Infrastructure.Migrations
                     b.Property<DateTime?>("LastLoginAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
-
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
@@ -435,7 +420,11 @@ namespace Crm.Infrastructure.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -596,6 +585,31 @@ namespace Crm.Infrastructure.Migrations
                                 .HasForeignKey("ContactId");
                         });
 
+                    b.OwnsOne("Crm.Domain.ValueObjects.FullName", "FullName", b1 =>
+                        {
+                            b1.Property<Guid>("ContactId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("FirstName")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)")
+                                .HasColumnName("FirstName");
+
+                            b1.Property<string>("LastName")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)")
+                                .HasColumnName("LastName");
+
+                            b1.HasKey("ContactId");
+
+                            b1.ToTable("Contacts");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ContactId");
+                        });
+
                     b.OwnsOne("Crm.Domain.ValueObjects.PhoneNumber", "Phone", b1 =>
                         {
                             b1.Property<Guid>("ContactId")
@@ -618,6 +632,9 @@ namespace Crm.Infrastructure.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("Email")
+                        .IsRequired();
+
+                    b.Navigation("FullName")
                         .IsRequired();
 
                     b.Navigation("Phone")
@@ -665,7 +682,35 @@ namespace Crm.Infrastructure.Migrations
                         .WithMany("Leads")
                         .HasForeignKey("UserId");
 
+                    b.OwnsOne("Crm.Domain.ValueObjects.FullName", "FullName", b1 =>
+                        {
+                            b1.Property<Guid>("LeadId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("FirstName")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)")
+                                .HasColumnName("FirstName");
+
+                            b1.Property<string>("LastName")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)")
+                                .HasColumnName("LastName");
+
+                            b1.HasKey("LeadId");
+
+                            b1.ToTable("Leads");
+
+                            b1.WithOwner()
+                                .HasForeignKey("LeadId");
+                        });
+
                     b.Navigation("Contact");
+
+                    b.Navigation("FullName")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Crm.Domain.Entities.Note", b =>
@@ -763,7 +808,35 @@ namespace Crm.Infrastructure.Migrations
                                 .HasForeignKey("UserId");
                         });
 
+                    b.OwnsOne("Crm.Domain.ValueObjects.FullName", "FullName", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("FirstName")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)")
+                                .HasColumnName("FirstName");
+
+                            b1.Property<string>("LastName")
+                                .IsRequired()
+                                .HasMaxLength(50)
+                                .HasColumnType("character varying(50)")
+                                .HasColumnName("LastName");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("Users");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+                        });
+
                     b.Navigation("Email")
+                        .IsRequired();
+
+                    b.Navigation("FullName")
                         .IsRequired();
                 });
 

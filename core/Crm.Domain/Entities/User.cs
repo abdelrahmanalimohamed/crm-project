@@ -11,9 +11,10 @@ public class User : BaseEntity
 	private readonly List<Activity> _activities = new();
 
 	// Properties
-	public string Name { get; private set; }
+	public FullName FullName { get; private set; }
 	public Email Email { get; private set; }
 	public string PasswordHash { get; private set; }
+	public string Salt { get; private set; }
 	public Role Role { get; private set; }
 	public bool IsActive { get; private set; }
 	public DateTime? LastLoginAt { get; private set; }
@@ -26,35 +27,30 @@ public class User : BaseEntity
 
 	private User() { }
 	// Constructor for creation
-	public User(string name, Email email, string passwordHash, Role role)
+	public User(
+		FullName fullName, 
+		Email email, 
+		string passwordHash, 
+		string salt ,
+		Role role)
 	{
-		ValidateName(name);
 		ValidatePassword(passwordHash);
 
-		Name = name;
+		FullName = new FullName(fullName.FirstName , fullName.LastName);
 		Email = email ?? throw new ArgumentNullException(nameof(email));
 		PasswordHash = passwordHash;
+		Salt = salt;
 		Role = role;
 		IsActive = true;
-		UpdatedAt = DateTime.UtcNow;
 
 		AddDomainEvent(new UserCreatedEvent(this));
 	}
-	private void ValidateName(string name)
-	{
-		if (string.IsNullOrWhiteSpace(name))
-			throw new ArgumentException("Name cannot be empty.", nameof(name));
-
-		if (name.Length < 2)
-			throw new ArgumentException("Name must be at least 2 characters long.", nameof(name));
-	}
-
 	private void ValidatePassword(string passwordHash)
 	{
 		if (string.IsNullOrWhiteSpace(passwordHash))
 			throw new ArgumentException("Password hash cannot be empty.", nameof(passwordHash));
 
-		if (passwordHash.Length < 60) // bcrypt hashes are typically 60 characters
+		if (passwordHash.Length < 40) // bcrypt hashes are typically 60 characters
 			throw new ArgumentException("Invalid password hash length.", nameof(passwordHash));
 	}
 }

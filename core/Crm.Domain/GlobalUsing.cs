@@ -2,3 +2,4 @@
 global using Crm.Domain.Enums;
 global using Crm.Domain.ValueObjects;
 global using Crm.SharedKernel.Events;
+global using System.Linq.Expressions;

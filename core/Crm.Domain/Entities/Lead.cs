@@ -5,6 +5,7 @@ public class Lead : BaseEntity
 	private readonly List<TaskItem> _tasks = new();
 	private readonly List<Note> _notes = new();
 	private readonly List<Activity> _activities = new();
+	public FullName FullName { get; private set; }
 	public LeadStatus LeadStatus { get; private set; }
 	// Foreign key
 	public Guid ContactId { get; private set; }
@@ -19,11 +20,12 @@ public class Lead : BaseEntity
 	private Lead() { }
 
 	// Constructor for creation
-	public Lead(Guid contactId)
+	public Lead(FullName fullName , Guid contactId)
 	{
+		FullName = new FullName(fullName.FirstName, fullName.LastName);
+
 		ContactId = contactId;
 		LeadStatus = LeadStatus.New;
-		UpdatedAt = DateTime.UtcNow;
 
 		AddDomainEvent(new LeadCreatedEvent(this));
 	}

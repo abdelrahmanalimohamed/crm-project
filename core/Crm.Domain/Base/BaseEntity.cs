@@ -5,7 +5,7 @@ public abstract class BaseEntity
 	private readonly List<DomainEventsBase> _domainEvents = new();
 	public Guid Id { get; protected set; } = Guid.NewGuid();
 	public DateTime CreatedAt { get; protected set; } = DateTime.UtcNow;
-	public DateTime UpdatedAt { get; protected set; }
+	public DateTime? UpdatedAt { get; protected set; }
 	public bool IsDeleted { get; protected set; }
 	public IReadOnlyCollection<DomainEventsBase> DomainEvents => _domainEvents.AsReadOnly();
 	protected void AddDomainEvent(DomainEventsBase domainEvent)

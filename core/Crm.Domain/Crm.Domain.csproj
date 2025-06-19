@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Crm.SharedKernel\Crm.SharedKernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="LoggingModel\" />
+  </ItemGroup>
+
 </Project>
