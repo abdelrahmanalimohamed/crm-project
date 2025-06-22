@@ -10,4 +10,6 @@ public interface IBaseRepository<T> where T : class
 		(Expression<Func<T, bool>> predicate = null,
 		List<Expression<Func<T, object>>> includes = null, 
 		CancellationToken cancellationToken = default);
+	ValueTask<T> GetFirstOrDefault(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
+
 }

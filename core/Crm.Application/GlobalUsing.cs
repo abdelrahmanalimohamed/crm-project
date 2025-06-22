@@ -1,6 +1,6 @@
 ﻿global using Crm.Application.Abstraction;
 global using Crm.Application.Behaviors;
-global using Crm.Application.Employee;
+global using Crm.Application.DTO;
 global using Crm.Application.Logging;
 global using Crm.Application.Mapping;
 global using Crm.Application.UnitOfWork;

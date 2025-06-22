@@ -25,12 +25,12 @@ public static class DependencyInjection
 				.WithTransientLifetime()
 			.AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)))
 				.AsImplementedInterfaces()
-				.WithTransientLifetime()
+				.WithScopedLifetime()
 		);
 
 		//services.Decorate(typeof(ICommandHandler<>), typeof(LoggingCommandHandlerDecorator<>));
 		services.Decorate(typeof(ICommandHandler<,>), typeof(LoggingResultCommandHandlerDecorator<,>));
-		//services.Decorate(typeof(IQueryHandler<,>), typeof(LogginQueryHandlerDecorator<,>));
+		services.Decorate(typeof(IQueryHandler<,>), typeof(LogginQueryHandlerDecorator<,>));
 
 		return services;
 	}

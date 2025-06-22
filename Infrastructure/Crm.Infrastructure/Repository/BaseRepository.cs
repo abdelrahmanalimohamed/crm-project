@@ -1,4 +1,6 @@
-﻿namespace Crm.Infrastructure.Repository
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Crm.Infrastructure.Repository
 {
 	public class BaseRepository<T> : IBaseRepository<T> where T : class
 	{
@@ -44,6 +46,10 @@
 		{
 			var entity = await _applicationDbContext.Set<T>().FindAsync(new object[] { Id }, cancellationToken);
 			return entity ?? throw new Exception($"Entity of type {typeof(T).Name} with id {Id} not found");
+		}
+		public async ValueTask<T> GetFirstOrDefault(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default)
+		{
+			return await _applicationDbContext.Set<T>().FirstOrDefaultAsync(predicate, cancellationToken);
 		}
 		public async ValueTask Insert(T entity, CancellationToken cancellationToken = default)
 		{

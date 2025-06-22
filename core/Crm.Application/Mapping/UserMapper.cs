@@ -1,4 +1,6 @@
-﻿namespace Crm.Application.Mapping;
+﻿using Crm.Application.Employee.EmployeeCreation;
+
+namespace Crm.Application.Mapping;
 public static class UserMapper
 {
 	public static User MapToUser(CreateUserCommand command, IPasswordHasher passwordHasher)

@@ -20,7 +20,7 @@ public class UnitOfWorkImplementation : IUnitOfWork
 		_repositories.Add(typeof(T), newRepository);
 		return newRepository;
 	}
-	public async ValueTask<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+	public async ValueTask<int> CommitAsync(CancellationToken cancellationToken = default)
 	{
 		return await _applicationDbContext.SaveChangesAsync(cancellationToken);
 	}

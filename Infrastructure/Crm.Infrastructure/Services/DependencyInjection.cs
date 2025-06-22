@@ -10,6 +10,7 @@ public static class DependencyInjection
 		services.AddScoped<IDomainDispatcher, DomainEventDispatcher>();
 		services.AddScoped<IPasswordHasher, PasswordHasher>();
 		services.AddScoped<ICommandDispatcher, CommandDispatcher>();
+		services.AddScoped<IQueryDispatcher, QueryDispatcher>();
 
 		services.AddDbContext<ApplicationDbContext>(options =>
 			options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));

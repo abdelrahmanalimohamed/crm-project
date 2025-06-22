@@ -1,4 +1,4 @@
-﻿namespace Crm.Application.Employee;
+﻿namespace Crm.Application.Employee.EmployeeCreation;
 public sealed record CreateUserCommand(
 	string FirstName,
 	string LastName,

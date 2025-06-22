@@ -1,4 +1,4 @@
-﻿namespace Crm.Application.Employee;
+﻿namespace Crm.Application.Employee.EmployeeCreation;
 public sealed class CreateUserCommandHandler
 	(IUnitOfWork unitOfWork , 
 	 IDomainDispatcher domainDispatcher ,
@@ -12,7 +12,7 @@ public sealed class CreateUserCommandHandler
 		var user = UserMapper.MapToUser(command, passwordHasher);
 
 		await unitOfWork.Repository<User>().Insert(user, cancellationToken);
-		await unitOfWork.SaveChangesAsync(cancellationToken);
+		await unitOfWork.CommitAsync(cancellationToken);
 
 		await domainDispatcher.DispatchEvents(user.DomainEvents, cancellationToken);
 		user.ClearDomainEvents();

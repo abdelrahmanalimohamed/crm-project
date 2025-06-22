@@ -30,6 +30,9 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 				.HasColumnName("Email")
 				.IsRequired()
 				.HasMaxLength(100);
+
+			email.HasIndex(e => e.Value)
+				.HasDatabaseName("IX_User_Email");
 		});
 
 		builder.HasMany(x => x.Activities)
