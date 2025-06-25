@@ -148,14 +148,14 @@ public class BaseRepositoryTest : IDisposable
 	}
 
 	[Fact]
-	public async Task Delete_WhenValidEntity_RemovesEntity()
+	public async Task SoftDelete_WhenValidEntity()
 	{
 		// Arrange
 		var entity = new TestEntity
 		{
 			Id = Guid.NewGuid(),
 			Name = "EntityToDelete",
-			Description = "This will be deleted",
+			Description = "This will be soft deleted",
 			CreatedDate = DateTime.Now
 		};
 
@@ -168,7 +168,9 @@ public class BaseRepositoryTest : IDisposable
 
 		// Assert
 		var deletedEntity = await _dbContext.TestEntities.FindAsync(entity.Id);
-		Assert.Null(deletedEntity);
+		Assert.NotNull(deletedEntity);
+		Assert.NotNull(deletedEntity.DeletedAt);
+		Assert.True(deletedEntity.IsDeleted);
 	}
 
 	[Fact]

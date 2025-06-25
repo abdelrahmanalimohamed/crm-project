@@ -20,3 +20,4 @@ global using System.Security.Cryptography;
 global using System.Text;
 global using Crm.Infrastructure.Security;
 global using Crm.Infrastructure.CQRS;
+global using Crm.Domain.Base;

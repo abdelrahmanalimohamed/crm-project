@@ -6,6 +6,7 @@ public abstract class BaseEntity
 	public Guid Id { get; protected set; } = Guid.NewGuid();
 	public DateTime CreatedAt { get; protected set; } = DateTime.UtcNow;
 	public DateTime? UpdatedAt { get; protected set; }
+	public DateTime? DeletedAt { get; protected set; }
 	public bool IsDeleted { get; protected set; }
 	public IReadOnlyCollection<DomainEventsBase> DomainEvents => _domainEvents.AsReadOnly();
 	protected void AddDomainEvent(DomainEventsBase domainEvent)
@@ -23,7 +24,7 @@ public abstract class BaseEntity
 	public void MarkAsDeleted()
 	{
 		IsDeleted = true;
-		UpdatedAt = DateTime.UtcNow;
+		DeletedAt = DateTime.UtcNow;
 	}
 	public override bool Equals(object obj)
 	{

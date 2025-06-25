@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Crm.Infrastructure.Repository
+﻿namespace Crm.Infrastructure.Repository
 {
 	public class BaseRepository<T> : IBaseRepository<T> where T : class
 	{
@@ -13,8 +11,27 @@ namespace Crm.Infrastructure.Repository
 		}
 		public ValueTask Delete(T entity, CancellationToken cancellationToken = default)
 		{
-			_dbSet.Remove(entity);
-			return ValueTask.CompletedTask;
+			if (_applicationDbContext.Entry(entity).State == EntityState.Detached)
+			{
+				_applicationDbContext.Set<T>().Attach(entity);
+			}
+
+			if (entity is BaseEntity baseEntity)
+			{
+				baseEntity.MarkAsDeleted();
+			}
+			else
+			{
+				entity.GetType()
+					.GetProperty("IsDeleted")?
+					.SetValue(entity, true);
+
+				entity.GetType()
+					.GetProperty("DeletedAt")?
+					.SetValue(entity, DateTime.UtcNow);
+			}
+
+		  return ValueTask.CompletedTask;
 		}
 		public async ValueTask<IEnumerable<T>> FindWithIncludeAsync(
 			Expression<Func<T, bool>> predicate = null, 

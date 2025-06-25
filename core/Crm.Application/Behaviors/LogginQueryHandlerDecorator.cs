@@ -17,16 +17,12 @@ public class LogginQueryHandlerDecorator<TQuery, TResult>
 	}
 	public async ValueTask<TResult> Handle(TQuery query, CancellationToken cancellationToken)
 	{
-		try
-		{
-			var result = await _innerHandler.Handle(query, cancellationToken);
-			await _logger.LogAsync(_logEntryFactory.CreateLogEntry("Information", $"Handled {typeof(TQuery).Name} successfully.", null , typeof(TQuery)), cancellationToken);
-			return result;
-		}
-		catch (Exception ex)
-		{
-			await _logger.LogAsync(_logEntryFactory.CreateLogEntry("Error", ex.Message, ex , typeof(TQuery)), cancellationToken);
-			throw;
-		}
+	  var result = await _innerHandler.Handle(query, cancellationToken);
+
+	   await _logger.LogAsync(_logEntryFactory.CreateLogEntry(
+				"Information", $"Handled {typeof(TQuery).Name} successfully.", 
+				null , typeof(TQuery)), cancellationToken);
+
+		return result;
 	}
 }

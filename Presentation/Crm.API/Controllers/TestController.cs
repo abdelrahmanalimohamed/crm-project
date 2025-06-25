@@ -1,5 +1,6 @@
 ﻿using Crm.Application.Abstraction;
 using Crm.Application.DTO;
+using Crm.Application.Employee.DeleteEmployee;
 using Crm.Application.Employee.EmployeeCreation;
 using Crm.Application.Employee.EmployeeLogin;
 using Microsoft.AspNetCore.Mvc;
@@ -50,6 +51,19 @@ namespace Crm.API.Controllers
 			}
 			
 			return Ok(user);
+		}
+
+		[HttpDelete("delete")]
+		public async Task<IActionResult> DeleteEmployee(
+		[FromBody] DeleteEmployeeCommand command,
+		CancellationToken cancellationToken)
+		{
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+
+			await _commandDispatcher.SendAsync<DeleteEmployeeCommand>(command, cancellationToken);
+
+			return Ok(new { message = "Employee deleted successfully." });
 		}
 	}
 }
