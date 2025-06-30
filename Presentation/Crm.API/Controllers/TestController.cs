@@ -11,26 +11,21 @@ namespace Crm.API.Controllers
 	[ApiController]
 	public class TestController : ControllerBase
 	{
-
-		private readonly ICommandDispatcher _commandDispatcher;
-		private readonly IQueryDispatcher _queryDispatcher;
-		public TestController(
-			ICommandDispatcher commandDispatcher , 
-			IQueryDispatcher queryDispatcher)
+		private readonly ISenderAsync _senderAsync;
+		public TestController(ISenderAsync senderAsync)
 		{
-			_commandDispatcher = commandDispatcher;
-			_queryDispatcher = queryDispatcher;
+			_senderAsync = senderAsync;
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> CreateUser(
-			[FromBody] CreateUserCommand command, 
+			[FromBody] CreateUserCommand command,
 			CancellationToken cancellationToken)
 		{
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			var userId = await _commandDispatcher.SendAsync<CreateUserCommand, Guid>(command, cancellationToken);
+			var userId = await _senderAsync.Send<CreateUserCommand, Guid>(command, cancellationToken);
 
 			return Ok(userId);
 		}
@@ -43,13 +38,13 @@ namespace Crm.API.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			var user = await _queryDispatcher.QueryAsync<LoginEmployeeQuery, EmployeeLoginResponseDTO>(query, cancellationToken);
+			var user = await _senderAsync.SendQuery<LoginEmployeeQuery, EmployeeLoginResponseDTO>(query, cancellationToken);
 
 			if (user == null)
 			{
 				return Unauthorized(new { message = "Invalid username or password." });
 			}
-			
+
 			return Ok(user);
 		}
 
@@ -61,7 +56,7 @@ namespace Crm.API.Controllers
 			if (!ModelState.IsValid)
 				return BadRequest(ModelState);
 
-			await _commandDispatcher.SendAsync<DeleteEmployeeCommand>(command, cancellationToken);
+			await _senderAsync.Send(command, cancellationToken);
 
 			return Ok(new { message = "Employee deleted successfully." });
 		}

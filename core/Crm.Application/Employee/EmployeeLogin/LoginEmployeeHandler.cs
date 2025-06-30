@@ -2,17 +2,17 @@
 public sealed class LoginEmployeeHandler :
 	IQueryHandler<LoginEmployeeQuery, EmployeeLoginResponseDTO>
 {
-	private readonly IUnitOfWork _unitOfWork;
 	private readonly IPasswordHasher _passwordHasher;
 	private readonly IDomainDispatcher _domainDispatcher;
+	private readonly IBaseRepository<User> _userRepository;
 	public LoginEmployeeHandler(
-		IUnitOfWork unitOfWork,
 		IPasswordHasher passwordHasher,
-		IDomainDispatcher domainDispatcher)
+		IDomainDispatcher domainDispatcher,
+		IBaseRepository<User> userRepository)
 	{
-		_unitOfWork = unitOfWork;
 		_passwordHasher = passwordHasher;
 		_domainDispatcher = domainDispatcher;
+		_userRepository = userRepository;
 	}
 
 	public async ValueTask<EmployeeLoginResponseDTO?> Handle(
@@ -20,14 +20,14 @@ public sealed class LoginEmployeeHandler :
 		CancellationToken cancellationToken)
 	{
 
-		var user = await _unitOfWork.Repository<User>().GetFirstOrDefault(
+		var user = await _userRepository.GetFirstOrDefault(
 			u => u.Email.Value == query.employeeLoginRequestDTO.email
 			, cancellationToken);
 
 		if (user == null ||
 			!_passwordHasher.VerifyPassword(
 				query.employeeLoginRequestDTO.password, user.Salt, user.PasswordHash))
-			return null;
+			return new EmployeeLoginResponseDTO(string.Empty, Guid.Empty);
 
 		await _domainDispatcher.DispatchEvents(user.DomainEvents, cancellationToken);
 		user.ClearDomainEvents();
